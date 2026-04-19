@@ -4,20 +4,16 @@ namespace App\Services\Catalog;
 
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 
 class FilterProductService
 {
-    public function filter($request, ?Category $category = null): Collection
+    public function filter($request, ?Category $category = null): Builder
     {
         if ($request->has('search') && $request->search) {
             $searchResults = Product::search($request->search)
                 ->get()
                 ->pluck('id');
-        }
-        
-        if ($request->has('category_slug') && $request->category_slug) {
-            $category = Category::where('slug', $request->category_slug)->firstOrFail();
         }
 
         return Product::query()

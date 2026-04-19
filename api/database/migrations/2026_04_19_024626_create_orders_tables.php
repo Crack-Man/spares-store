@@ -19,6 +19,9 @@ return new class extends Migration
             $table->dateTime('confirmed_at')->nullable();
             $table->dateTime('shipped_at')->nullable();
             $table->timestamps();
+
+            $table->index('status');
+            $table->index('created_at');
         });
 
         Schema::create('order_items', function (Blueprint $table) {
@@ -37,6 +40,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('order_items');
         Schema::dropIfExists('orders');
     }
 };

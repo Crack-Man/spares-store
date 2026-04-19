@@ -18,7 +18,7 @@ class GetProductsRequest extends FormRequest
     {
         return [
             'search' => 'nullable|string',
-            'category_slug' => 'nullable|string|exists:categories,slug',
+            'category_slug' => 'required|string|exists:categories,slug',
         ];
     }
 

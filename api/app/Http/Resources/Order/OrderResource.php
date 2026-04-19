@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Order;
 
-use App\Http\Resources\Customer\CustomerResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -18,6 +17,8 @@ class OrderResource extends JsonResource
             'status' => $this->status->label(),
             'items' => OrderItemResource::collection($this->items),
             'created_at' => $this->created_at,
+            'confirmed_at' => $this->confirmed_at,
+            'shipped_at' => $this->shipped_at,
         ];
     }
 }

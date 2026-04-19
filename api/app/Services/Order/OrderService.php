@@ -2,6 +2,7 @@
 
 namespace App\Services\Order;
 
+use App\Exceptions\InsufficientStockException;
 use App\Models\Order;
 use App\Models\Product;
 use App\Http\Requests\Order\OrderListRequest;
@@ -49,10 +50,11 @@ class OrderService
                 ->firstOrFail();
 
             if ($product->stock_quantity < $item['quantity']) {
-                throw new \Exception(
-                    "Not enough stock for product {$product->name} (id={$product->id}) " .
-                    "in order #{$order->id} by phone {$order->customer->phone}: requested={$item['quantity']} " .
-                    "available={$product->stock_quantity}"
+                throw new InsufficientStockException(
+                    productId: $product->id,
+                    productName: $product->name,
+                    requested: $item['quantity'],
+                    available: $product->stock_quantity,
                 );
             }
 

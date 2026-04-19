@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\CreateOrderRequest;
 use App\Http\Requests\Order\OrderListRequest;
 use App\Http\Resources\Customer\CustomerResource;
-use App\Http\Resources\Order\OrderListResource;
 use App\Http\Resources\Order\OrderResource;
 use App\Models\Customer;
 use App\Models\Order;
@@ -27,30 +26,37 @@ class OrderController extends Controller
     
     public function createOrder(CreateOrderRequest $request): JsonResource
     {
-        // TODO: сделать поиск Customer по авторизации
+        // TODO: можно сделать поиск Customer по авторизации без ожидания от запроса client_id
         $customer = Customer::findOrFail($request['customer_id']);
         $this->logService->save('orders', $customer->phone, $request->all());
         $order = $this->orderService->createOrder($request);
+        $order->load('customer');
 
-        return new OrderResource($order);
+        return (new OrderResource($order))->additional([
+            'customer' => new CustomerResource($order->customer),
+        ]);
     }
     
     public function getOrders(OrderListRequest $request)
     {
-        $orders = $this->orderService->getOrders($request);
-        $paginated = $orders->paginate(10);
+        $orders = $this->orderService->getOrders($request)
+            ->paginate(10);
 
-        // TODO: сделать поиск Customer по авторизации
+        // TODO: можно сделать поиск Customer по авторизации без ожидания от запроса client_id
         $customer = Customer::findOrFail($request->customer_id);
 
-        return OrderListResource::collection($paginated)->additional([
+        return OrderResource::collection($orders)->additional([
             'customer' => new CustomerResource($customer),
         ]);
     }
     
     public function showOrder($id)
     {
+        // TODO: можно сделать поиск Customer по авторизации без ожидания от запроса client_id
         $order = Order::with(['customer', 'items'])->findOrFail($id);
-        return new OrderResource($order);
+
+        return (new OrderResource($order))->additional([
+            'customer' => new CustomerResource($order->customer),
+        ]);
     }
 }

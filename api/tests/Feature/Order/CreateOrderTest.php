@@ -35,7 +35,8 @@ it('создаёт заказ, уменьшает остатки, считает
 
     $response->assertStatus(201)
         ->assertJsonPath('data.status', 'Новый')
-        ->assertJsonPath('data.total_amount', '12000.00');
+        ->assertJsonPath('data.total_amount', '12000.00')
+        ->assertJsonPath('customer.id', $this->customer->id);
 
     expect($product1->fresh()->stock_quantity)->toBe(8);
     expect($product2->fresh()->stock_quantity)->toBe(2);
@@ -74,7 +75,9 @@ it('выдаёт ошибку при недостаточном остатке',
         ],
     ]);
 
-    $response->assertStatus(500);
+    $response->assertStatus(422)
+        ->assertJsonPath('status', 'error')
+        ->assertJsonStructure(['message', 'product_id', 'requested', 'available']);
 
     expect($product->fresh()->stock_quantity)->toBe(2);
     $this->assertDatabaseCount('orders', 0);

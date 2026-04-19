@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\HasActiveScope;
+use App\Models\Traits\HasSlugGeneration;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
-    use HasFactory, HasSlug, Searchable;
+    use HasFactory, HasSlugGeneration, HasActiveScope, Searchable;
     
     protected $fillable = [
         'id',
@@ -23,22 +22,10 @@ class Product extends Model
         'category_id',
         'is_active',
     ];
-    
-    public function getSlugOptions() : SlugOptions
-    {
-        return SlugOptions::create()
-            ->generateSlugsFrom('name')
-            ->doNotGenerateSlugsOnUpdate()
-            ->saveSlugsTo('slug')
-            ->usingLanguage('ru');
-    }
 
-    public function scopeActive($query): Builder
+    protected function activeRelations(): array
     {
-        return $query->where('is_active', true)
-            ->whereHas('category', function ($query) {
-                $query->active();
-            });
+        return ['category'];
     }
     
     public function category()

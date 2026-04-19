@@ -12,7 +12,8 @@ Route::prefix('catalog')->group(function () {
 });
 
 Route::prefix('orders')->group(function () {
-    Route::post('/', [OrderController::class, 'createOrder']);
+    Route::post('/', [OrderController::class, 'createOrder'])
+        ->middleware('throttle:10,1');
     Route::get('/', [OrderController::class, 'getOrders']);
     Route::get('/{id}', [OrderController::class, 'showOrder']);
 });
