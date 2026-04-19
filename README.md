@@ -30,3 +30,6 @@ docker compose exec php php artisan migrate:fresh --seed
 ```bash
 docker compose exec php php artisan test
 ```
+
+## Postman
+Postman коллекция доступна в папке `docs`
