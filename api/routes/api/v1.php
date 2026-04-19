@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Catalog\CategoryController;
 use App\Http\Controllers\Catalog\ProductController;
 use App\Http\Controllers\Order\OrderController;
+use App\Http\Controllers\Sync\OrderSyncController;
 
 Route::prefix('catalog')->group(function () {
     Route::get('/categories', [CategoryController::class, 'getCategories']);
@@ -18,5 +19,5 @@ Route::prefix('orders')->group(function () {
 
 // Отдельный эндпоинт вне группы orders, чтобы разделить логику обновления статуса заказа как процесс синхронизации с внешней системой
 Route::prefix('sync')->group(function () {
-    Route::patch('/orders/{id}/status', [OrderController::class, 'syncOrderStatus']);
+    Route::patch('/orders/{id}/status', [OrderSyncController::class, 'syncOrderStatus']);
 });

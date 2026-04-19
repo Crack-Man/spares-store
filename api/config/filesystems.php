@@ -47,11 +47,12 @@ return [
             'report' => false,
         ],
 
-        'log' => [
+        'logging' => [
             'driver' => 'local',
-            'root' => storage_path('app/logs'),
+            'root' => storage_path('app/logging'),
             'serve' => true,
             'throw' => false,
+            'url' => env('APP_URL').'/storage/logging',
         ],
 
         'sync' => [
@@ -59,6 +60,7 @@ return [
             'root' => storage_path('app/sync'),
             'serve' => true,
             'throw' => false,
+            'url' => env('APP_URL').'/storage/sync',
         ],
 
         's3' => [

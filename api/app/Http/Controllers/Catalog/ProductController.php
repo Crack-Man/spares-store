@@ -20,7 +20,9 @@ class ProductController extends Controller
 
     public function getProducts(GetProductsRequest $request): JsonResource
     {
-        $products = $this->filterProductService->filter($request);
+        $products = $this->filterProductService->filter($request)
+            ->paginate(10);
+            
         return ProductListResource::collection($products);
     }
 }

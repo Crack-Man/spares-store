@@ -23,7 +23,6 @@ class FilterProductService
         return Product::query()
             ->active()
             ->when($category?->id, fn ($query) => $query->where('category_id', $category->id))
-            ->when($searchResults ?? null, fn ($query) => $query->whereIn('id', $searchResults))
-            ->get();
+            ->when($searchResults ?? null, fn ($query) => $query->whereIn('id', $searchResults));
     }
 }
