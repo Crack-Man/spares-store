@@ -49,6 +49,24 @@ class CatalogSeeder extends Seeder
                         ],
                     ],
                 ],
+
+                [
+                    'name' => 'Ремни',
+                    'products' => [
+                        [
+                            'name' => 'Ремень вентилятора/генератора (20x2155)',
+                            'sku' => fake()->uuid(),
+                            'price' => 15560,
+                            'stock_quantity' => 2,
+                        ],
+                        [
+                            'name' => 'Ремень привода двигателя',
+                            'sku' => fake()->uuid(),
+                            'price' => 6600,
+                            'stock_quantity' => 1,
+                        ],
+                    ],
+                ],
             ]
         ];
         

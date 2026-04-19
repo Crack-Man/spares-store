@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Catalog\CategoryController;
 use App\Http\Controllers\Catalog\ProductController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Order\OrderController;
 
 Route::prefix('catalog')->group(function () {
     Route::get('/categories', [CategoryController::class, 'getCategories']);

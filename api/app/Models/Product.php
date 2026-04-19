@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Builder;
+use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
-    use HasSlug;
+    use HasSlug, Searchable;
     
     protected $fillable = [
+        'id',
         'name',
         'slug',
         'sku',
@@ -41,5 +43,13 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'name' => $this->name,
+            'sku' => $this->sku,
+        ];
     }
 }
