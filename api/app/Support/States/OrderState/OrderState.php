@@ -21,7 +21,7 @@ abstract class OrderState extends State
     public static function resolveByName(string $name): string
     {
         return static::$stateMap[$name]
-            ?? throw new \InvalidArgumentException("Unknown order status: {$name}");
+            ?? throw new \InvalidArgumentException("Неизвестный статус заказа: {$name}");
     }
 
     public static function config(): StateConfig

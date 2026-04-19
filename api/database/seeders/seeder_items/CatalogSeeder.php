@@ -19,31 +19,26 @@ class CatalogSeeder extends Seeder
                     'products' => [
                         [
                             'name' => 'Вентилятор',
-                            'sku' => fake()->uuid(),
                             'price' => 15560,
                             'stock_quantity' => 3,
                         ],
                         [
                             'name' => 'Привод вентилятора',
-                            'sku' => fake()->uuid(),
                             'price' => 6600,
                             'stock_quantity' => 1,
                         ],
                         [
                             'name' => 'Крыльчатка вентилятора',
-                            'sku' => fake()->uuid(),
                             'price' => 8815,
                             'stock_quantity' => 4,
                         ],
                         [
                             'name' => 'Маслоохладитель',
-                            'sku' => fake()->uuid(),
                             'price' => 13650,
                             'stock_quantity' => 2,
                         ],
                         [
                             'name' => 'Термостат',
-                            'sku' => fake()->uuid(),
                             'price' => 1350,
                             'stock_quantity' => 5,
                         ],
@@ -55,13 +50,11 @@ class CatalogSeeder extends Seeder
                     'products' => [
                         [
                             'name' => 'Ремень вентилятора/генератора (20x2155)',
-                            'sku' => fake()->uuid(),
                             'price' => 15560,
                             'stock_quantity' => 2,
                         ],
                         [
                             'name' => 'Ремень привода двигателя',
-                            'sku' => fake()->uuid(),
                             'price' => 6600,
                             'stock_quantity' => 1,
                         ],
@@ -79,7 +72,7 @@ class CatalogSeeder extends Seeder
             foreach ($category['products'] as $product) {
                 $categoryModel->products()->updateOrCreate(
                     ['name' => $product['name']],
-                    $product
+                    collect($product)->merge(['sku' => fake()->unique()->bothify('SKU-####-??')])->toArray()
                 );
             }
         }

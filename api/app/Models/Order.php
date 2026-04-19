@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -10,7 +11,8 @@ use App\Support\States\OrderState\OrderState;
 
 class Order extends Model
 {
-    use HasStates;
+    use HasFactory, HasStates;
+    
     protected $fillable = [
         'id',
         'customer_id',
@@ -22,6 +24,7 @@ class Order extends Model
 
     protected $casts = [
         'status' => OrderState::class,
+        'total_amount' => 'decimal:2',
     ];
     
     public function customer(): BelongsTo

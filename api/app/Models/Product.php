@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,7 +11,7 @@ use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
-    use HasSlug, Searchable;
+    use HasFactory, HasSlug, Searchable;
     
     protected $fillable = [
         'id',

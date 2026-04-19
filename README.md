@@ -25,3 +25,8 @@ docker compose exec php composer install
 docker compose exec php php artisan migrate:fresh --seed
 ```
 6. API доступен по адресу `http://localhost:8080`
+
+## Запуск тестов
+```bash
+docker compose exec php php artisan test
+```
