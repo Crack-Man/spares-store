@@ -7,9 +7,9 @@ ARG WWW_GID
 RUN apt update && apt install -y \
     gosu \
     mc nano git \
-    libfreetype6-dev libjpeg62-turbo-dev libpng-dev libzip-dev libpq-dev \
+    libfreetype6-dev libjpeg62-turbo-dev libpng-dev libzip-dev libpq-dev libicu-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_pgsql zip gd \
+    && docker-php-ext-install pdo_pgsql zip gd intl \
     && pecl install redis \
     && docker-php-ext-enable redis
 
