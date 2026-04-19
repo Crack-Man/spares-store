@@ -7,18 +7,20 @@ use App\Http\Requests\Sync\SyncOrderStatusRequest;
 use App\Models\Order;
 use App\Support\States\OrderState\OrderState;
 use Spatie\ModelStates\Exceptions\CouldNotPerformTransition;
+use App\Services\Order\OrderStatusSyncService;
 
 class OrderSyncController extends Controller
 {
+    public function __construct(protected OrderStatusSyncService $statusSyncService)
+    {
+    }
+
     public function syncOrderStatus(SyncOrderStatusRequest $request, $id)
     {
-        // TODO: сделать логирование аналогично оформлению заказа
         $order = Order::findOrFail($id);
 
-        $targetState = OrderState::resolveByName($request->status);
-
         try {
-            $order->status->transitionTo($targetState);
+            $label = $this->statusSyncService->changeStatus($order, $request->status);
         } catch (CouldNotPerformTransition $e) {
             return response()->json([
                 'status' => 'error',
@@ -29,7 +31,7 @@ class OrderSyncController extends Controller
         return response()->json([
             'message' => 'Статус заказа успешно синхронизирован',
             'order_id' => $order->id,
-            'status' => $order->status->label(),
+            'status' => $label,
         ]);
     }
 }

@@ -50,7 +50,8 @@ services:
         volumes:
             - ./api:/srv/api
             - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
-            - ./docker/php/queue/supervisord.d:/etc/supervisord.d
+            - ./docker/php/supervisor/supervisord.conf:/etc/supervisord.conf
+            - ./docker/php/supervisor/supervisord.d:/etc/supervisord.d
             - ./docker/php/queue/logs:/var/log/worker
         depends_on:
             - pgsql

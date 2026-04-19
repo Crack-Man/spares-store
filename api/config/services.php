@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'export' => [
+        'order_url' => env('EXPORT_ORDER_URL', 'https://httpbin.org/post'),
+    ],
+
 ];
